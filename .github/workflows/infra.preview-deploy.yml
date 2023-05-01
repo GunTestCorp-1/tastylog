@@ -36,7 +36,7 @@ jobs:
           terraform_version: ${{ env.TF_VERSION }}
 
       - name: Terraform format
-        run:  |
+        run:  
           terraform fmt -check
 
       - name: Configure AWS credentials
@@ -46,6 +46,6 @@ jobs:
           aws-region: ${{ env.AWS_RESION }}
 
       -name:  Terraform init
-        run:  |
+        run:  
           terraform init -no-color
-          
+
