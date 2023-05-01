@@ -42,3 +42,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
+
+      -name:  Terraform init
+        run:  
+          terraform init
