@@ -38,13 +38,3 @@ jobs:
       - name: Terraform format
         run:  
           terraform fmt -check
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with: 
-          role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
-          aws-region: ${{ env.AWS_RESION }}
-
-      -name:  Terraform init
-        run:  
-          terraform init -no-color
