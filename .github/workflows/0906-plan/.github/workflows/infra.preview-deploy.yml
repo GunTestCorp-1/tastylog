@@ -1,10 +1,10 @@
 name: "infra preview & deploy"
 
-on: 
-  push: 
-    branches: 
+on:
+  push:
+    branches:
       - main
-    paths: 
+    paths:
       - 10_infra/**
       - .github/workflows/**
   workflow_dispatch:
@@ -14,10 +14,10 @@ permissions:
   contents: read
 
 env:
-  TF_VERSION: 1.2.8
   AWS_REGION: ap-northeast-1
+  TF_VERSION: 1.2.8
   TF_PROJECT: tastylog
-  TF_ENVIRONMENT: dev
+  TF_ENVIRONMENT: dryrun
 
 defaults:
   run:
@@ -26,42 +26,37 @@ defaults:
 
 jobs:
   preview:
-    name: "Preview"
+    name: Preview
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Cehckout repository
         uses: actions/checkout@v3
-
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TF_VERSION }}
       - name: Terraform format
-        run:  
+        run: |
           terraform fmt -check
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+      - name: Configure AWS Credential
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
-
+          role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
       - name: Terraform init
-        run:  
+        run: |
           terraform init -no-color
-
       - name: Terraform validate
-        run: 
+        run: |
           terraform validate -no-color
-
       - name: Terraform plan
-        id:   plan
-        run: 
-          terraform plan                                   
-            -var 'project=${{ env.TF_PROJECT }}'           
-            -var 'environment=${{ env.TF_ENVIRONMENT }}'   
-            -var 'username=${{ secrets.MYSQL_USENAME }}'   
-            -var 'password=${{ secrets.MYSQL_PASSWORD }}'  
-            -input=false                                   
-            -no-color                                      
+        id: plan
+        run: |
+          terraform plan \
+            -var 'project=${{ env.TF_PROJECT }}' \
+            -var 'environment=${{ env.TF_ENVIRONMENT }}' \
+            -var 'username=${{ secrets.MYSQL_USERNAME }}' \
+            -var 'password=${{ secrets.MYSQL_PASSWORD }}' \
+            -input=false \
+            -no-color \
             -detailed-exitcode
