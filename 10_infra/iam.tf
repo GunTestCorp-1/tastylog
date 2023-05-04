@@ -10,7 +10,7 @@ resource "aws_iam_instance_profile" "app_ec2_profile" {
 }
 
 resource "aws_iam_role" "app_iam_role" {
-  name               = "${var.project}-${var.environment}-app-iam-role"
+  name               = "${var.project}-${var.environment}-githubactions-iam-role"
   assume_role_policy = data.aws_iam_policy_document.ec2_assume_role.json
 
   tags = {
