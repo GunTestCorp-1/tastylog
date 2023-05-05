@@ -36,7 +36,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TF_VERSION }}
-          
+
       - name: Terraform format
         run:  
           terraform fmt -check
@@ -58,11 +58,11 @@ jobs:
       - name: Terraform plan
         id:   plan
         run: 
-          terraform plan                                   
-            -var 'project=${{ env.TF_PROJECT }}'           
-            -var 'environment=${{ env.TF_ENVIRONMENT }}'   
-            -var 'username=${{ secrets.MYSQL_USENAME }}'   
-            -var 'password=${{ secrets.MYSQL_PASSWORD }}'  
-            -input=false                                   
-            -no-color                                      
+          terraform plan \                                   
+            -var 'project=${{ env.TF_PROJECT }}' \           
+            -var 'environment=${{ env.TF_ENVIRONMENT }}' \   
+            -var 'username=${{ secrets.MYSQL_USENAME }}' \   
+            -var 'password=${{ secrets.MYSQL_PASSWORD }}' \  
+            -input=false \                                   
+            -no-color \                                      
             -detailed-exitcode
