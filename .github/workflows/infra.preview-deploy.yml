@@ -58,8 +58,7 @@ jobs:
       - name: Terraform plan
         id:   plan
         run: 
-          terraform plan
-            -detailed-exitcode
+          terraform plan  -detailed-exitcode
             -input=false
             -no-color
             -var 'project=${{ env.TF_PROJECT }}'
