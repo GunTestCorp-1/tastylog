@@ -65,4 +65,4 @@ jobs:
             -var 'environment=${{ env.TF_ENVIRONMENT }}'
             -var 'username=${{ secrets.MYSQL_USENAME }}'
             -var 'password=${{ secrets.MYSQL_PASSWORD }}'
-        continuee-on-error: true
+        continue-on-error: true
