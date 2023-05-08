@@ -69,5 +69,5 @@ jobs:
         continue-on-error: true
 
         - name: Check for plan failure
-          if:   steps.plan.outputsexitcode == 2
+          if:   steps.plan.outputs.exitcode == 2
           run:  exit 2
