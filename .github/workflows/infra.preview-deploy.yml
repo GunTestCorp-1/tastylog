@@ -61,6 +61,7 @@ jobs:
           terraform plan
             -detailed-exitcode
             -input=false
+            -out=plan.out
             -var 'project=${{ env.TF_PROJECT }}'
             -var 'environment=${{ env.TF_ENVIRONMENT }}'
             -var 'username=${{ secrets.MYSQL_USENAME }}'
