@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 env:
-  TF_VERSION: 1.2.8
+  TF_VERSION: 1.1.7
   AWS_REGION: ap-northeast-1
   TF_PROJECT: tastylog
   TF_ENVIRONMENT: dev
@@ -61,9 +61,7 @@ jobs:
           terraform plan
             -detailed-exitcode
             -input=false
-            -out=plan.out
             -var 'project=${{ env.TF_PROJECT }}'
             -var 'environment=${{ env.TF_ENVIRONMENT }}'
             -var 'username=${{ secrets.MYSQL_USENAME }}'
             -var 'password=${{ secrets.MYSQL_PASSWORD }}'
-        continue-on-error: true
