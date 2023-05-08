@@ -65,3 +65,11 @@ jobs:
             -var 'environment=${{ env.TF_ENVIRONMENT }}'
             -var 'username=${{ secrets.MYSQL_USENAME }}'
             -var 'password=${{ secrets.MYSQL_PASSWORD }}'
+        continue-on-error: true
+      
+      - name: check plan exitcode 
+        run:  echo steps.plan.outputs.exitcode
+
+      - name: Check plan failure
+        if:   ${{ !contains(steps.plan.outputs.stdout, 'No changes.') }}
+        run:  exit 2
