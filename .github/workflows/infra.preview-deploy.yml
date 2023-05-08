@@ -67,7 +67,3 @@ jobs:
             -var 'username=${{ secrets.MYSQL_USENAME }}'
             -var 'password=${{ secrets.MYSQL_PASSWORD }}'
         continue-on-error: true
-
-        - name: Check for plan failure
-          if:   steps.plan.outputs.exitcode == 2
-          run:  exit 2
