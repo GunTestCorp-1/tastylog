@@ -28,6 +28,8 @@ jobs:
   preview:
     name: "Preview"
     runs-on: ubuntu-latest
+    outputs:  
+      IF_PLAN_EXITCODE: ${{ steps.plan-check.outputs.exicode }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -70,6 +72,42 @@ jobs:
         run:  echo steps.plan.outputs.exitcode
 
       - name: Check plan failure
+        id: plan-check
         if:   ${{ !contains(steps.plan.outputs.stdout, 'No changes.') }}
         run:  exit 2
+        else: 
+        run:  exit 0
         continue-on-error: true
+      
+      -name:  Slack Notify
+        uses: slackapi/slack-github-action@v1.22.0
+        with: 
+          channel-id: "C056P7K5YUW"
+          payload:  |
+            {
+              "attachments": [
+                {
+                  "color": "#0068B7",
+                  "blocks": [
+                    {
+                      "type": "header",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Request for approve",
+                        "emoji": true
+                      }
+                    },
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "${{ githib.server_url }}/${{ githib.repository }}/actions/runs/${{ gituhub.run_id }}"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+        env: 
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
