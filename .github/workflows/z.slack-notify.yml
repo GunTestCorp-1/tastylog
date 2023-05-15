@@ -12,7 +12,7 @@ jobs:
         uses: slackapi/slack-github-action@v1.23.0
         with: 
         channel-id: "C056P7K5YUW"
-        payload: |
+        payload:  
           {
             "blocks": [
               {
