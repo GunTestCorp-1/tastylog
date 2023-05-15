@@ -71,11 +71,12 @@ jobs:
 
       - name: Check plan failure
         continue-on-error: true
-        id: plan-check
+        id: plancheck
         if:   ${{ !contains(steps.plan.outputs.stdout, 'No changes.') }}
         run:  exit 2
 
       - name: Slack Notify
+        if: steps.plancheck.outputs.exitcode == 2
         uses: slackapi/slack-github-action@v1.22.0
         with: 
           channel-id: "C056P7K5YUW"
