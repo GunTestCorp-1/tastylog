@@ -28,9 +28,6 @@ jobs:
   preview:
     name: "Preview"
     runs-on: ubuntu-latest
-    outputs:  
-      TF_PLAN_EXITCODE: ${{ steps.plan-check.outputs.exicode }}
-      
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
