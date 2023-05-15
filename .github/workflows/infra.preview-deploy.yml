@@ -70,39 +70,39 @@ jobs:
         run:  echo steps.plan.outputs.exitcode
 
       - name: Check plan failure
+        continue-on-error: true
         id: plan-check
         if:   ${{ !contains(steps.plan.outputs.stdout, 'No changes.') }}
         run:  exit 2
-        continue-on-error: true
 
       - name: Slack Notify
         if: steps.plan-check.outputs.exitcode == 2
         uses: slackapi/slack-github-action@v1.22.0
           with: 
             channel-id: "C056P7K5YUW"
-              payload: |
-                  {
-                    "attachments": [
-                      {
-                        "blocks": [
-                          {
-                            "type": "header",
-                            "text": {
-                              "type": "plain_text",
-                              "text": "Request for approve",
-                              "emoji": true
-                            }
-                          },
-                          {
-                            "type": "section",
-                            "text": {
-                              "type": "mrkdwn",
-                              "text": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-                            }
+            payload: |
+                {
+                  "attachments": [
+                    {
+                      "blocks": [
+                        {
+                          "type": "header",
+                          "text": {
+                            "type": "plain_text",
+                            "text": "Request for approve",
+                            "emoji": true
                           }
-                        ]
-                      }
-                    ]
-                  }
+                        },
+                        {
+                          "type": "section",
+                          "text": {
+                            "type": "mrkdwn",
+                            "text": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
             env: 
               SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
