@@ -9,28 +9,28 @@ jobs:
     runs-on:  ubuntu-latest
     steps:
       - name: slack notify
-        uses: slackapi/slack-github-action@v1.23.0
+        uses: slackapi/slack-github-action@v1.22.0
         with: 
-        channel-id: "C056P7K5YUW"
-        payload:  
-          {
-            "blocks": [
-              {
-                "type": "header",
-                "text": {
-                  "type": "plain_text",
-                  "text": "Message Header",
-                  "emoji": true
+          channel-id: "C056P7K5YUW"
+          payload:  |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Message Header",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "Hello World : ghost"
+                  }
                 }
-              },
-              {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "Hello World : ghost"
-                }
-              }
-            ]
-          }
+              ]
+            }
         env: 
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
