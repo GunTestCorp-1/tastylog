@@ -28,6 +28,9 @@ jobs:
   preview:
     name: "Preview"
     runs-on: ubuntu-latest
+    outputs:
+      TF_PLAN_EXITCODE: ${{ steps.plancheck.outputs.exitcode }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -67,11 +70,11 @@ jobs:
             -var 'password=${{ secrets.MYSQL_PASSWORD }}'
             
       - name: check plan exitcode
-        run:  echo steps.plan.outputs.exitcode
+        run:  echo ${{ steps.plan.outputs.exitcode }}
 
       - name: Check plan failure
         continue-on-error: true
-        id: plancheck
+        id:   plancheck
         if:   ${{ !contains(steps.plan.outputs.stdout, 'No changes.') }}
         run:  exit 2
 
