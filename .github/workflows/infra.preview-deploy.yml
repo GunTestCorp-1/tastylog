@@ -118,18 +118,22 @@ jobs:
     steps:
       - name: Cehckout repository
         uses: actions/checkout@v3
+
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TF_VERSION }}
+
       - name: Terraform format
         run: |
           terraform fmt -check
+
       - name: Configure AWS Credential
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
+
       - name: Terraform init
         run: |
           terraform init -no-color
@@ -138,10 +142,11 @@ jobs:
         id: apply
         run: |
           terraform apply
+            -auto-approve
+            -input=false
+            -no-color
             -var 'project=${{ env.TF_PROJECT }}'
             -var 'environment=${{ env.TF_ENVIRONMENT }}'
             -var 'username=${{ secrets.MYSQL_USENAME }}'
             -var 'password=${{ secrets.MYSQL_PASSWORD }}'
-            -input=false
-            -no-color
-            -auto-approve
+            
