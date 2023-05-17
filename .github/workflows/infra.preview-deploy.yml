@@ -149,12 +149,12 @@ jobs:
             -input=false \
             -no-color \
             -auto-approve
-            
+
       - name: Slack Notify
         if: always()
         uses: slackapi/slack-github-action@v1.22.0
         with:
-          channel-id: "${{ secrets.SLACK_CHANNEL_ID }}"
+          channel-id: "C056P7K5YUW"
           payload: |
             {
               "attachments": [
